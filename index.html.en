@@ -1,0 +1,103 @@
+<html>
+<head>
+<meta charset='utf-8' />
+<title>Cherbini Mapping Catalog</title>
+<script src='https://api.mapbox.com/mapbox-gl-js/v0.44.2/mapbox-gl.js'></script>
+<link href='https://api.mapbox.com/mapbox-gl-js/v0.44.2/mapbox-gl.css' rel='stylesheet' />
+<style>
+body { margin:0; padding:0; }
+#map { position:absolute; top:0; bottom:0; width:100%; }
+</style>
+</head>
+<body>
+<style>
+.map-overlay {
+    font:bold 12px/20px 'Helvetica Neue', Arial, Helvetica, sans-serif;
+    position: absolute;
+    width: 25%;
+    top: 0;
+    left: 0;
+    padding: 10px;
+}
+
+.map-overlay .map-overlay-inner {
+    background-color: #fff;
+    box-shadow:0 1px 2px rgba(0, 0, 0, 0.20);
+    border-radius: 3px;
+    padding: 10px;
+    margin-bottom: 10px;
+}
+
+.map-overlay label {
+    display: block;
+    margin: 0 0 10px;
+}
+
+.map-overlay input {
+    background-color: transparent;
+    display: inline-block;
+    width: 100%;
+    position: relative;
+    margin: 0;
+    cursor: ew-resize;
+}
+</style>
+
+<div id='map'></div>
+<div class='map-overlay top'>
+    <div class='map-overlay-inner'>
+        <label>Layer opacity: <span id='slider-value'>100%</span></label>
+        <input id='slider' type='range' min='0' max='100' step='0' value='100' />
+    </div>
+    <div class='map-overlay-inner'>
+	<fieldset>
+            <label>Select Map</label>
+            <select id='layer' name='layer'>
+                <option value='cherbini.2z9527zh'>Map 1</option>
+                <option value='cherbini.58r0i8s4'>Map 2</option>
+                <option value='cherbini.mapbox_GTiff_upload_test'>Map 3</option>
+                <option value='cherbini.mapid'>Map 4</option>
+            </select>
+        </fieldset>
+    </div>
+</div>
+
+<script>
+
+mapboxgl.accessToken = 'pk.eyJ1IjoiY2hlcmJpbmkiLCJhIjoiY2lvZjVrd2ViMDB0MXRua215ZGw5NmFwdSJ9.F4gN-C2QdVaAx_dHMQHv_g';
+
+var map = new mapboxgl.Map({
+container: 'map',
+style: 'mapbox://styles/cherbini/cjhtpki2k025k2spimgwet8pk',
+center: [-122.312412, 37.870778],
+zoom: 13
+});
+
+var slider = document.getElementById('slider');
+var sliderValue = document.getElementById('slider-value');
+var mapSelect = document.getElementById('layer');
+
+map.on('load', function() {
+
+//var fullURL = "mapbox://"+mapSelect;
+
+    slider.addEventListener('input', function(e) {
+    	map.setPaintProperty('first', 'raster-opacity', parseInt(e.target.value, 10) / 100);
+    	sliderValue.textContent = e.target.value + '%';
+    });
+
+    mapSelect.addEventListener('input', f {
+    	map.addLayer({
+       	 "id": "layer",
+       	 "source": {
+          "type": "raster",
+          "url": "mapbox://" + f,
+       	  },
+       	    "type": "raster"
+   	});
+   });
+});
+
+</script>
+</body>
+</html>
